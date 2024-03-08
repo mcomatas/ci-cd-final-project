@@ -1,17 +1,17 @@
 ---
 apiVersion: tekton.dev/v1beta1
-kind: task
+kind: Task
 metadata:
   name: cleanup
 spec:
-  description: This task will clean up a workspcae by deleting all the files.
+  description: This task will clean up a workspace by deleting all the files.
   workspaces:
     - name: source
   steps:
     - name: remove
       image: alpine:3
       env:
-        - name: WORKSPACE_SOURE_PATH
+        - name: WORKSPACE_SOURCE_PATH
           value: $(workspaces.source.path)
       workingDir: $(workspaces.source.path)
       securityContext:
@@ -32,7 +32,7 @@ spec:
             rm -rf "${WORKSPACE_SOURCE_PATH}"/.[!.]*
             # Delete files and directories starting with .. plus any other character
             rm -rf "${WORKSPACE_SOURCE_PATH}"/..?*
-          fi
+           fi
 
 ---
 apiVersion: tekton.dev/v1beta1
